@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hieroglyphs &mdash; Fandom Wiki Dictionary Builder</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <h1>𓁹 Hieroglyphs</h1>
+  <p class="tagline">Turn any MediaWiki / Fandom wiki into an e-reader dictionary.</p>
+</header>
+
+<main>
+  <section class="panel" id="panel-source">
+    <h2>1. Source wiki</h2>
+    <label>Fandom / MediaWiki base URL</label>
+    <div class="row">
+      <input id="base-url" type="text" placeholder="https://redrising.fandom.com">
+      <button id="btn-count">Count pages</button>
+    </div>
+    <p id="page-count-result" class="hint"></p>
+
+    <label>Dictionary name</label>
+    <input id="dict-name" type="text" placeholder="Red Rising Dictionary" value="My Fandom Dictionary">
+
+    <label class="checkbox-row">
+      <input type="checkbox" id="tense-fix" checked>
+      Rewrite past-tense sentences to present tense (avoids spoiling character deaths/endings)
+    </label>
+
+    <button id="btn-start" class="primary">Build dictionary</button>
+
+    <div id="progress-wrap" class="hidden">
+      <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+      <p id="progress-text" class="hint"></p>
+      <p id="progress-status" class="hint"></p>
+      <p id="progress-retry" class="hint warn hidden"></p>
+      <div class="row" id="crawl-controls">
+        <button id="btn-pause">⏸ Pause</button>
+        <button id="btn-resume" class="hidden">▶ Resume</button>
+        <button id="btn-stop" class="danger">⏹ Stop &amp; keep progress</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-project">
+    <h2>2. Current dictionary</h2>
+    <div class="row">
+      <span id="project-name">Untitled Dictionary</span>
+      <button id="btn-rename">Rename</button>
+      <button id="btn-new">New blank project</button>
+      <button id="btn-random" title="Jump to a random entry">🎲 Random</button>
+    </div>
+    <p id="project-stats" class="hint">0 entries</p>
+
+    <label>Import dictionary file (StarDict .ifo, .csv, .txt, .json)</label>
+    <div class="row">
+      <input type="file" id="import-file">
+      <select id="import-mode">
+        <option value="merge">Merge into current</option>
+        <option value="replace">Replace current</option>
+      </select>
+      <button id="btn-import">Import</button>
+    </div>
+    <p id="import-result" class="hint"></p>
+
+    <label>Export as</label>
+    <div class="export-row">
+      <button data-fmt="all" class="primary">⬇ All formats (.zip)</button>
+      <button data-fmt="stardict">StarDict (.ifo/.idx/.dict/.syn)</button>
+      <button data-fmt="koreader">KOReader package (.zip)</button>
+      <button data-fmt="syn">Synonyms only (.syn.txt)</button>
+      <button data-fmt="dict">dictd (.dict/.index)</button>
+      <button data-fmt="csv">CSV</button>
+      <button data-fmt="txt">TXT</button>
+      <button data-fmt="json">JSON (full project save)</button>
+    </div>
+  </section>
+
+  <section class="panel" id="panel-entries">
+    <h2>3. Entries</h2>
+    <div class="row">
+      <input id="search-box" type="text" placeholder="Search headwords/aliases&hellip; e.g. Roque, Goliath, Slingblade (press / to focus)">
+      <button id="btn-search">Search</button>
+      <button id="btn-add-entry">+ New entry</button>
+    </div>
+    <div id="quick-view" class="hidden"></div>
+    <div id="entry-list"></div>
+  </section>
+</main>
+
+<div id="entry-editor" class="modal hidden">
+  <div class="modal-box">
+    <h3>Edit entry</h3>
+    <input type="hidden" id="edit-id">
+    <label>Headword</label>
+    <input id="edit-headword" type="text">
+    <label>Aliases (comma separated)</label>
+    <input id="edit-aliases" type="text">
+    <label>Redirect to (leave blank for a real entry)</label>
+    <input id="edit-redirect" type="text">
+    <label>Body</label>
+    <textarea id="edit-body" rows="10"></textarea>
+    <div class="row">
+      <button id="btn-save-entry" class="primary">Save</button>
+      <button id="btn-delete-entry" class="danger">Delete</button>
+      <button id="btn-close-editor">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
